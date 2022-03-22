@@ -26,7 +26,7 @@ function App() {
       </CenteredSection>
       <ReviewContainer setShowForm={setShowForm} />
       <About />
-      {showForm.state && <AddReviewForm docID={showForm.docID}/>}
+      {showForm.state && <AddReviewForm docID={showForm.docID} setShowForm={setShowForm}/>}
     </div>
   );
 }

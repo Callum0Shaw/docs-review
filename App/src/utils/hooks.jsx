@@ -1,17 +1,20 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
-export const useIsDesktop = () => {
-  const breakpoint = 620;
-  const [isDesktop, setIsDesktop] = useState(window.innerWidth > breakpoint);
-
+// Close on click outside
+export const useClickOutside = (handler) => {
+  let domNode = useRef();
   useEffect(() => {
-    const handleWindowResize = () => setIsDesktop(window.innerWidth > breakpoint);
-    window.addEventListener("resize", handleWindowResize);
-    
-    console.log(isDesktop)
-    return () => window.removeEventListener("resize", handleWindowResize);
-    
+    let maybeHandler = (event) => {
+      if (!domNode.current.contains(event.target)) {
+        handler( )
+      }
+    };
+    document.addEventListener('mousedown', maybeHandler);
+
+    return () => {
+      document.removeEventListener('mousedown', maybeHandler);
+    };
   }, []);
 
-  return {isDesktop}
+  return domNode;
 };

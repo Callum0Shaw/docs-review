@@ -1,20 +1,25 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { storeReview } from '../utils/firebase';
 import FormTextArea from './FormTextArea';
 import CheckBox from './CheckBox';
 import { checkboxArray } from '../utils/keywords';
+import { useClickOutside } from '../utils/hooks';
 
-const AddReviewForm = ({ docID }) => {
+const AddReviewForm = ({ docID, setShowForm }) => {
   const { register, handleSubmit } = useForm();
 
   async function submitForm(data) {
-    const newReview = await storeReview(data.review, docID);
-    console.log(newReview);
+    await storeReview(data.review, docID);
   }
+
+  let domNode = useClickOutside(() => setShowForm({ state: false }));
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-grey bg-opacity-50 z-10">
-      <div className="w-fit absolute bottom-1/2 right-1/2 translate-x-1/2 translate-y-1/2 bg-white text-black p-6">
+      <div
+        ref={domNode}
+        className="w-fit absolute bottom-1/2 right-1/2 translate-x-1/2 translate-y-1/2 bg-white text-black p-6"
+      >
         <header>Add a new review</header>
         <form onSubmit={handleSubmit(submitForm)}>
           <FormTextArea
