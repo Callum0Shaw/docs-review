@@ -1,12 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import ReviewCard from './ReviewCard';
 import {
   MdOutlineArrowBackIos,
   MdOutlineArrowForwardIos,
 } from 'react-icons/md';
 import ArrowButton from './ArrowButton';
+import { orderBy, limit, query, collection, getDocs } from 'firebase/firestore';
+import { db } from '../utils/firebase.config';
 
-const ReviewContainer = () => {
+const ReviewContainer = ({setShowForm}) => {
+  const [docArr, setDocArr] = useState([]);
+
+  useEffect(() => {
+    const q = query(collection(db, 'docs'), orderBy('dateAdded'), limit(3));
+    async function getFirstSixDocs() {
+      const docSnapshots = await getDocs(q);
+
+      const docs = docSnapshots.docs.map((d) => ({ ...d.data(), id: d.id }));
+      setDocArr(docs);
+    }
+    getFirstSixDocs();
+  }, []);
+
   return (
     <section className="w-full hex-background">
       <div className="container py-10 grid gap-2">
@@ -22,21 +37,19 @@ const ReviewContainer = () => {
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <ReviewCard logo={'/images/logos/reactjs-logo.svg'} title={'React js'} />
-          <ReviewCard logo={'/images/logos/redux-logo.svg'} title={'Redux'} />
-          <ReviewCard
-            logo={'/images/logos/tailwind-logo.svg'}
-            title={'Tailwind CSS'}
-          />
-          <ReviewCard logo={'/images/logos/reactjs-logo.svg'} title={'React js'} />
-          <ReviewCard logo={'/images/logos/redux-logo.svg'} title={'Redux'} />
-          <ReviewCard
-            logo={'/images/logos/tailwind-logo.svg'}
-            title={'Tailwind CSS'}
-          />
+          {docArr.map((doc) => {
+            return (
+              <ReviewCard
+                key={doc.id}
+                logo={'/logos/tailwind-logo.svg'}
+                doc={doc}
+                setShowForm={setShowForm}
+              />
+            );
+          })}
         </div>
         <div className="flex-center my-6">
-          <ArrowButton text={'See more'}/>
+          <ArrowButton text={'See more'} />
         </div>
       </div>
     </section>

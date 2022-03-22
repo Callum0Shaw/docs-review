@@ -3,11 +3,11 @@ import { MdThumbsUpDown } from 'react-icons/md';
 
 const Description = () => {
   return (
-    <section className="bg-lightgrey py-6">
+    <section className="bg-offWhite py-6">
       <div className="container grid grid-cols-1 md:grid-cols-2 justify-items-center lg:grid-cols-4 lg py-10 gap-6">
-        {[...Array(4)].map(() => {
+        {[...Array(4)].map((a, i) => {
           return (
-            <div className="max-w-[24rem] grid gap-3">
+            <div className="max-w-[24rem] grid gap-3" key={i}>
               <div className="text-second grid gap-2">
                 <MdThumbsUpDown size={28} />
                 <h3 className="text-sm font-semibold text-second">

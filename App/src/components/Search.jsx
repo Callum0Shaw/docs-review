@@ -9,7 +9,7 @@ const Search = () => {
     <>
       <form className="w-max-80 relative h-10">
         <input
-          className="px-5 py-2 bg-grey w-full outline-0 rounded"
+          className="px-5 py-2 bg-offWhite w-full outline-0 rounded"
           type="text"
           placeholder="Enter doc name"
           value={search}

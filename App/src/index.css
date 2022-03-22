@@ -16,10 +16,19 @@
   html {
     font-family: Poppins, system-ui, sans-serif;
     color: #ffffff;
+    
+  }
+  form {
+  }
+  input, textarea {
+    @apply w-full caret-lightaccent ease-in-out transition-colors duration-300 bg-lightgrey rounded-sm border-[1px] border-grey focus:border-lightaccent outline-none text-sm
   }
 }
 
 @layer components {
+  .checked:checked {
+    background-color: #00A7E1;
+  }
   .button {
     @apply flex items-center gap-4 py-3 px-8 bg-accent rounded hover:bg-lightaccent text-white text-sm font-medium;
   }

@@ -15,12 +15,10 @@ const Stars = ({ rating, reviews }) => {
   };
   const starArray = convertRatingToStars();
   return (
-    <>
-      <div className="text-black flex gap-1">
-        <div className="flex gap text-second">{starArray}</div>
-        <p className="text-second text-[.8rem]">({reviews})</p>
-      </div>
-    </>
+    <div className="text-black flex gap-1">
+      <div className="flex gap text-second">{starArray}</div>
+      <p className="text-second text-[.8rem]">({reviews})</p>
+    </div>
   );
 };
 

@@ -1,15 +1,11 @@
 import React from 'react';
-import TitleCarousel from './TitleCarousel';
-import {
-  MdOutlineReviews,
-  MdOutlineEmojiPeople,
-} from 'react-icons/md';
+import { MdOutlineReviews, MdOutlineEmojiPeople } from 'react-icons/md';
 import ArrowButton from './ArrowButton';
 
 const Hero = () => {
   return (
     <div className="background h-auto block text-black">
-      <section className="container grid grid-cols-1 md:grid-cols-2 gap-4 items-center justify-center py-48">
+      <section className="container grid grid-cols-1 md:grid-cols-2 gap-4 items-center justify-center pt-44 pb-28 md:pb-32">
         <div className="flex flex-col gap-6 md:items-start md:text-left text-center items-center py-4">
           <header className="">
             <h1 className="text-7xl font-normal subpixel-antialiased">
@@ -37,9 +33,9 @@ const Hero = () => {
               <p className="text-sm">Reviews</p>
             </div>
           </div>
-          <ArrowButton text={'See more'}/>
+          <ArrowButton text={'See more'} />
         </div>
-        <TitleCarousel />
+        <img src="/images/test.svg" alt="" />
       </section>
     </div>
   );

@@ -1,7 +1,7 @@
 import React from 'react';
-import {MdArrowForward} from 'react-icons/md'
+import { MdArrowForward } from 'react-icons/md';
 
-const ArrowButton = ({text}) => {
+const ArrowButton = ({ text }) => {
   return (
     <button className="button">
       {text}
