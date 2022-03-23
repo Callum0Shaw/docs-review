@@ -2,6 +2,7 @@ import React from 'react';
 import { MdStarBorder, MdStarHalf, MdStar } from 'react-icons/md';
 
 const Stars = ({ rating, reviews }) => {
+
   const convertRatingToStars = () => {
     let stars = [];
     const remainder = rating % 1;
@@ -16,7 +17,7 @@ const Stars = ({ rating, reviews }) => {
   const starArray = convertRatingToStars();
   return (
     <div className="text-black flex gap-1">
-      <div className="flex gap text-second">{starArray}</div>
+      <div className="flex gap text-second">{starArray.map((a, i) => (<div key={i}>{a}</div>))}</div>
       <p className="text-second text-[.8rem]">({reviews})</p>
     </div>
   );
