@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Search from './Search';
 import { FaUser } from 'react-icons/fa';
 import { MdSearch } from 'react-icons/md';
+import { Link } from 'react-router-dom';
 
 const NavBar = () => {
   const [dropDown, setDropDown] = useState(false);
@@ -11,17 +12,15 @@ const NavBar = () => {
     setDropDown(!dropDown);
   };
   return (
-    <div className="py-4 px-6 absolute top-0 left-0 w-full min-h-[56px]">
+    <div className="bg-main py-4 px-6 w-full min-h-[56px]">
       <header
         className={`container flex justify-between items-center px-8 py-5 bg-white ${
           dropDown ? 'rounded-t-lg' : 'rounded-lg'
         } text-black`}
       >
-        <a href="#">
-          <h3 className="text-xl text-second hover:text-third font-medium font-playfair">
-            Doc Review
-          </h3>
-        </a>
+        <h3 className="text-xl text-second hover:text-third font-medium font-playfair">
+          <Link to="/">Doc Review</Link>
+        </h3>
         <div className="hidden md:block">
           <Search />
         </div>

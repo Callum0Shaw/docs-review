@@ -7,8 +7,11 @@
   .container {
     width: min(100% - 1rem, 78rem);
     margin-inline: auto;
-    padding-left: 2rem;
-    padding-right: 2rem;
+    
+  }
+  .con-padding {
+    padding-top: 4rem;
+    padding-bottom: 5rem;
   }
 }
 
@@ -16,21 +19,24 @@
   html {
     font-family: Poppins, system-ui, sans-serif;
     color: #ffffff;
-    
   }
   form {
   }
-  input, textarea {
-    @apply w-full caret-lightaccent ease-in-out transition-colors duration-300 bg-lightgrey rounded-sm border-[1px] border-grey focus:border-lightaccent outline-none text-sm
+  input,
+  textarea {
+    @apply w-full caret-lightaccent ease-in-out transition-colors duration-500 bg-lightgrey rounded-sm border-[1px] border-grey focus:border-lightaccent outline-none text-sm;
   }
 }
 
 @layer components {
   .checked:checked {
-    background-color: #00A7E1;
+    @apply bg-lightaccent transition-all ease-in-out duration-300;
   }
   .button {
-    @apply flex items-center gap-4 py-3 px-8 bg-accent rounded hover:bg-lightaccent text-white text-sm font-medium;
+    @apply flex items-center gap-4 py-3 px-8 bg-accent rounded hover:bg-lightaccent text-white text-sm font-medium transition-all ease-in-out duration-100;
+  }
+  .keyword {
+    @apply bg-lightgrey rounded p-1 w-fit text-black;
   }
   p {
     @apply text-xs;

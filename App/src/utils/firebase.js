@@ -10,9 +10,8 @@ import {
   updateDoc,
   arrayUnion,
   getDoc,
+  where,
 } from 'firebase/firestore';
-
-
 
 /**
  * Adds new doc from form input to firestore
@@ -46,8 +45,6 @@ export async function storeDoc(data) {
   return newDoc;
 }
 
-
-
 /**
  * Creates new review and stores in firestore
  * @param  {string} review - Review in string
@@ -55,6 +52,7 @@ export async function storeDoc(data) {
  */
 
 export async function storeReview(review, docID) {
+  console.log(review, docID);
   // Get reference for doc
   const docRef = doc(db, 'docs', docID);
   // add new review with ref of the new doc
@@ -73,12 +71,26 @@ export async function storeReview(review, docID) {
 
   return newReview;
 }
+/**
+ * Get Document base on name
+ * @param  {String} name - Name of Document to be found
+ */
+export async function getDocumentFromName(name) {
+  // Get ref of docs collection
+  const docsRef = collection(db, 'docs');
+  // Query, returning a queryShot
+  const q = await query(docsRef, where('name', '==', name));
 
-export async function getDocument() {
+  // Get doc snapshots from query snapshot
+  const docSnapshots = await getDocs(q);
 
+  const document = { ...docSnapshots.docs[0].data(), docID: docSnapshots.docs[0].id };
+  return document;
 }
 
 /**
+ * Get the current highest rated doc in 'docs'
+ * @return {object} Returns the doc including ID
  */
 export async function getHighestRatedDoc() {
   let bestDoc;
@@ -98,17 +110,29 @@ export async function getHighestRatedDoc() {
   return bestDoc;
 }
 /**
- * Takes in array of refs and orders by date added and retrieves lastest review
- * @param  {array} reviews - Array of review refs
+ * Gets content of all reviews passed into it
+ * @param  {array} reviewRefs - Array of review refs from corrosponding doc
+ * @return {object} - Array of review objects
  */
-export async function getLatestReview(reviews) {
-  const promises = reviews.map(async (review) => getDoc(review));
+export async function getAllReviewsOfDoc(reviewRefs) {
+  const promises = reviewRefs.map(async (review) => getDoc(review));
   const reviewSnapshots = await Promise.all(promises);
 
-  const sortedReviews = reviewSnapshots
-    .map((r) => r.data())
-    .sort((a, b) => a.dateAdded.seconds < b.dateAdded.seconds ? 1 : -1);
-  return sortedReviews[0];
+  const reviews = reviewSnapshots.map((r) => {
+    return { ...r.data(), id: r.id };
+  });
+  return reviews;
 }
 
+/**
+ * Takes in array of review refs and orders by date added and retrieves lastest review
+ * @param  {array} reviews - Array of review refs
+ */
+export async function getLatestReview(reviewRefs) {
+  const reviews = await getAllReviewsOfDoc(reviewRefs);
 
+  const sortedReviews = reviews.sort((a, b) =>
+    a.dateAdded.seconds < b.dateAdded.seconds ? 1 : -1
+  );
+  return sortedReviews[0];
+}

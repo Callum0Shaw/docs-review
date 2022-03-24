@@ -8,7 +8,7 @@ import ArrowButton from './ArrowButton';
 import { orderBy, limit, query, collection, getDocs } from 'firebase/firestore';
 import { db } from '../utils/firebase.config';
 
-const ReviewContainer = ({setShowForm}) => {
+const ReviewContainer = ({ setShowForm }) => {
   const [docArr, setDocArr] = useState([]);
 
   useEffect(() => {
@@ -26,7 +26,7 @@ const ReviewContainer = ({setShowForm}) => {
     <section className="w-full hex-background">
       <div className="container py-10 grid gap-2">
         <div className="flex items-center justify-between my-4">
-          <h2 className="text-xl text-white font-semibold">Software</h2>
+          <h2 className="text-xl text-white font-semibold">More software</h2>
           <div className="gap-4 hidden sm:flex">
             <button className="bg-accent rounded hover:bg-lightaccent h-8 w-8 flex-center">
               <MdOutlineArrowBackIos size={24} />

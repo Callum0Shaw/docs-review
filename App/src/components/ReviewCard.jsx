@@ -1,6 +1,7 @@
 import React from 'react';
 import Stars from './Stars';
 import VoteButton from './VoteButton';
+import { Link } from 'react-router-dom';
 
 const ReviewCard = ({ doc, logo, setShowForm }) => {
   return (
@@ -12,13 +13,15 @@ const ReviewCard = ({ doc, logo, setShowForm }) => {
             <div className="flex justify-between items-center">
               <h2 className="text-md font-medium">{doc.name}</h2>
               <div className="text-black flex gap-1">
-                <Stars
-                  rating={doc.rating ? doc.rating : 0}
-                  reviews={doc.reviews ? doc.reviews.length : 0}
-                />
+                <Link to={`/docs/${doc.name}`}>
+                  <Stars
+                    rating={doc.rating ? doc.rating : 0}
+                    reviews={doc.reviews ? doc.reviews.length : 0}
+                  />
+                </Link>
               </div>
             </div>
-            <p className="font-extralight text-[.7rem]">{doc.keywords[0]}</p>
+            <p className="keyword">{doc.keywords[0]}</p>
           </div>
           <p className="font-extralight w-3/4">
             {doc.description ? doc.description : 'blank'}
@@ -26,7 +29,7 @@ const ReviewCard = ({ doc, logo, setShowForm }) => {
         </div>
       </div>
       <div className="absolute right-4 bottom-4 ">
-        <VoteButton size={30} setShowForm={setShowForm} docID={doc.id}/>
+        <VoteButton size={30} setShowForm={setShowForm} docID={doc.id} />
       </div>
     </div>
   );
