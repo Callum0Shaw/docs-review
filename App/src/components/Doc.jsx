@@ -12,7 +12,7 @@ const Doc = ({ doc, reviews }) => {
 
   return (
     <section className="background">
-      <div className="container con-padding md:pb-32 max-h-screen">
+      <div className="container con-padding md:pb-32">
         <article className="text-black grid gap-12 mt-24 mb-32 rounded-md shadow shadow-grey p-6 bg-white">
           <header className="grid md:grid-cols-2 gap-3">
             <img
@@ -45,11 +45,11 @@ const Doc = ({ doc, reviews }) => {
             </button>
           )}
           {toggleForm && <AddReviewForm docID={doc.docID} setToggleForm={setToggleForm}/>}
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {reviews.map((review, i) => (
-              <div className="grid gap-2" key={i}>
+              <div className="grid gap-2 px-6" key={i}>
                 <p>{review.review}</p>
-                <p>{review.dateAdded.toDate().toLocaleDateString()}</p>
+                <p className="self-end place-self-end">{review.dateAdded.toDate().toLocaleDateString()}</p>
               </div>
             ))}
           </div>
