@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaTwitterSquare, FaLinkedin, FaGithubSquare } from 'react-icons/fa';
 
-const About = () => {
+function About() {
   return (
     <section className="bg-white text-third">
       <div className="container grid grid-cols-1 md:grid-cols-3 py-16">
@@ -32,6 +32,6 @@ const About = () => {
       </footer>
     </section>
   );
-};
+}
 
 export default About;

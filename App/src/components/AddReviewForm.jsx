@@ -5,7 +5,7 @@ import FormTextArea from './FormTextArea';
 import CheckBox from './CheckBox';
 import { checkboxArray } from '../utils/keywords';
 
-const AddReviewForm = ({ docID, setToggleForm }) => {
+function AddReviewForm({ docID, setToggleForm }) {
   const { register, handleSubmit } = useForm();
 
   async function submitForm(data) {
@@ -24,7 +24,7 @@ const AddReviewForm = ({ docID, setToggleForm }) => {
         <FormTextArea
           name="review"
           register={register}
-          placeholder={'Leave a review'}
+          placeholder="Leave a review"
         />
         <fieldset>
           <legend>How would you describe the documentation</legend>
@@ -34,10 +34,12 @@ const AddReviewForm = ({ docID, setToggleForm }) => {
             ))}
           </div>
         </fieldset>
-        <button className="button">Submit</button>
+        <button type="submit" className="button">
+          Submit
+        </button>
       </form>
     </div>
   );
-};
+}
 
 export default AddReviewForm;

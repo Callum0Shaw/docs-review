@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { RiDoubleQuotesL, RiDoubleQuotesR } from 'react-icons/ri';
 import { getHighestRatedDoc, getLatestReview } from '../utils/firebase';
 import Stars from './Stars';
-import { RiDoubleQuotesL, RiDoubleQuotesR } from 'react-icons/ri';
 import ArrowButton from './ArrowButton';
 
-const BestRated = () => {
+function BestRated() {
   const [highestDoc, setHighestDoc] = useState(null);
   const [latestReview, setLatestReview] = useState('');
 
@@ -20,7 +20,7 @@ const BestRated = () => {
   }, []);
 
   return (
-    <div className='container con-padding'>
+    <div className="container con-padding">
       <article className="text-black">
         <header className="">
           <h3 className="text-xl font-semibold flex-center text-second">
@@ -59,7 +59,7 @@ const BestRated = () => {
             </div>
             <div className="flex justify-between mt-2 items-center px-2">
               {/* <VoteButton size={36} /> */}
-              <ArrowButton text={'See more'} />
+              <ArrowButton text="See more" />
               <Stars
                 rating={highestDoc && highestDoc.rating}
                 reviews={highestDoc && highestDoc.reviews.length}
@@ -70,6 +70,6 @@ const BestRated = () => {
       </article>
     </div>
   );
-};
+}
 
 export default BestRated;

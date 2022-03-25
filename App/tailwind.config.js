@@ -10,7 +10,6 @@ module.exports = {
     colors: {
       main: '#fbe8a6',
       second: '#f4976c',
-      // b4dfe5
       third: '#303C6C',
       fourth: '#d2fdff',
       accent: '#064789',
@@ -19,15 +18,13 @@ module.exports = {
       white: '#fff',
       black: '#1f2937',
       grey: '#d3d3d3',
-      lightgrey: '#f3f4f6'
-
+      lightgrey: '#f3f4f6',
     },
-  
+
     fontFamily: {
       poppins: ['Poppins', 'sans-serif'],
       playfair: ['Playfair Display', 'serif'],
     },
-    extend: {},
   },
   plugins: [],
 };

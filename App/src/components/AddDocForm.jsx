@@ -6,12 +6,12 @@ import CheckBox from './CheckBox';
 import { storeDoc } from '../utils/firebase';
 import { checkboxArray } from '../utils/keywords';
 
-const AddDocForm = () => {
+function AddDocForm() {
   const { register, handleSubmit } = useForm();
 
   async function submitForm(data) {
     // add new doc to firestore
-    const newDoc = await storeDoc(data);
+    await storeDoc(data);
   }
 
   return (
@@ -28,7 +28,7 @@ const AddDocForm = () => {
         <img
           className="hidden md:block ml-[-2rem]"
           src="/images/review.svg"
-          alt="image of reviewing"
+          alt="reviewing"
         />
       </header>
       <form
@@ -37,31 +37,37 @@ const AddDocForm = () => {
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           <FormInput
-            name={'name'}
+            name="name"
             register={register}
-            type={'text'}
+            type="text"
             tooltip={false}
           />
           <FormInput
-            name={'logo'}
+            name="logo"
             register={register}
-            type={'text'}
-            tooltip={true}
-            ttLink={'https://worldvectorlogo.com/'}
-            ttText={'Click here to find link to logos'}
+            type="text"
+            tooltip
+            ttLink="https://worldvectorlogo.com/"
+            ttText="Click here to find link to logos"
           />
         </div>
         <FormTextArea
           name="description"
           register={register}
-          placeholder={'Describe what the software does'}
+          placeholder="Describe what the software does"
         />
         <label htmlFor="rating">Rating</label>
-        <input {...register('rating')} type="range" min={0} max={500} />
+        <input
+          id="rating"
+          {...register('rating')}
+          type="range"
+          min={0}
+          max={500}
+        />
         <FormTextArea
           name="review"
           register={register}
-          placeholder={'Leave a review'}
+          placeholder="Leave a review"
         />
         <fieldset>
           <legend>How would you describe the documentation</legend>
@@ -77,6 +83,6 @@ const AddDocForm = () => {
       </form>
     </div>
   );
-};
+}
 
 export default AddDocForm;

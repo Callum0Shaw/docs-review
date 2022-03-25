@@ -1,9 +1,11 @@
 import React from 'react';
 
-const FormTextArea = ({ name, register, validation, placeholder }) => {
+function FormTextArea({ name, register, validation, placeholder }) {
   return (
     <>
-      <label htmlFor={name}>{name.charAt(0).toUpperCase() + name.slice(1)}</label>
+      <label htmlFor={name}>
+        {name.charAt(0).toUpperCase() + name.slice(1)}
+      </label>
       <textarea
         id={name}
         {...register(name, validation)}
@@ -13,6 +15,6 @@ const FormTextArea = ({ name, register, validation, placeholder }) => {
       />
     </>
   );
-};
+}
 
 export default FormTextArea;
