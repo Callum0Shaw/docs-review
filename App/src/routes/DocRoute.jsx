@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import Doc from '../components/Doc';
 import { useParams } from 'react-router-dom';
+import Doc from '../components/Doc';
 import { getDocumentFromName, getAllReviewsOfDoc } from '../utils/firebase';
 
-const doc = () => {
+function DocRoute() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [doc, setDoc] = useState(null);
   const [reviews, setReviews] = useState([]);
 
-  const params = useParams();
+  const { docName } = useParams();
 
   useEffect(() => {
     async function getDoc() {
       try {
-        const docsRes = await getDocumentFromName(params.docName);
+        const docsRes = await getDocumentFromName(docName);
         setDoc(docsRes);
         const reviewsRes = await getAllReviewsOfDoc(docsRes.reviews);
         setReviews(reviewsRes);
@@ -24,10 +24,16 @@ const doc = () => {
       }
     }
     getDoc();
-  }, []);
+  }, [docName]);
   return (
-    <>{isLoaded ? <Doc doc={doc} reviews={reviews} /> : <h1>loading</h1>}</>
+    <div>
+      {isLoaded ? (
+        <Doc doc={doc} reviews={reviews} setReviews={setReviews} />
+      ) : (
+        <h1>loading</h1>
+      )}
+    </div>
   );
-};
+}
 
-export default doc;
+export default DocRoute;

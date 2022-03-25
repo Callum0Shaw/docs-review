@@ -1,13 +1,13 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Stars from './Stars';
 import VoteButton from './VoteButton';
-import { Link } from 'react-router-dom';
 
-const ReviewCard = ({ doc, logo, setShowForm }) => {
+function ReviewCard({ doc, logo, setShowForm }) {
   return (
     <div className="relative bg-white rounded-md hover:shadow-md hover:shadow-black hover:scale-105 px-3 py-4 md:px-4">
       <div className="flex gap-4">
-        <img src={logo} alt="photo of react js" className="h-20 w-20" />
+        <img src={logo} alt="react js" className="h-20 w-20" />
         <div className="grid gap-1 text-black w-full">
           <div className="grid w-full">
             <div className="flex justify-between items-center">
@@ -33,6 +33,6 @@ const ReviewCard = ({ doc, logo, setShowForm }) => {
       </div>
     </div>
   );
-};
+}
 
 export default ReviewCard;

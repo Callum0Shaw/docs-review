@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import AddReviewForm from './AddReviewForm';
 import Stars from './Stars';
 
-const Doc = ({ doc, reviews }) => {
+function Doc({ doc, reviews, setReviews }) {
   const [toggleForm, setToggleForm] = useState(false);
 
   function handleClick(event) {
@@ -40,16 +40,25 @@ const Doc = ({ doc, reviews }) => {
             </div>
           </header>
           {!toggleForm && (
-            <button className="button" onClick={handleClick}>
+            <button type="button" className="button" onClick={handleClick}>
               Write a review
             </button>
           )}
-          {toggleForm && <AddReviewForm docID={doc.docID} setToggleForm={setToggleForm}/>}
+          {toggleForm && (
+            <AddReviewForm
+              docID={doc.docID}
+              setToggleForm={setToggleForm}
+              reviews={reviews}
+              setReviews={setReviews}
+            />
+          )}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             {reviews.map((review, i) => (
               <div className="grid gap-2 px-6" key={i}>
                 <p>{review.review}</p>
-                <p className="self-end place-self-end">{review.dateAdded.toDate().toLocaleDateString()}</p>
+                <p className="self-end place-self-end">
+                  {review.dateAdded.toDate().toLocaleDateString()}
+                </p>
               </div>
             ))}
           </div>
@@ -57,6 +66,6 @@ const Doc = ({ doc, reviews }) => {
       </div>
     </section>
   );
-};
+}
 
 export default Doc;

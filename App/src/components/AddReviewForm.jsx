@@ -5,12 +5,14 @@ import FormTextArea from './FormTextArea';
 import CheckBox from './CheckBox';
 import { checkboxArray } from '../utils/keywords';
 
-function AddReviewForm({ docID, setToggleForm }) {
+function AddReviewForm({ docID, setToggleForm, reviews, setReviews }) {
   const { register, handleSubmit } = useForm();
 
   async function submitForm(data) {
     try {
-      await storeReview(data.review, docID);
+      const submittedReview = await storeReview(data.review, docID);
+      console.log(submittedReview);
+      setReviews(reviews.concat(submittedReview));
       setToggleForm(false);
     } catch (error) {
       console.error(error);

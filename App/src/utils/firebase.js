@@ -1,4 +1,3 @@
-import { db } from './firebase.config';
 import {
   collection,
   addDoc,
@@ -12,6 +11,7 @@ import {
   getDoc,
   where,
 } from 'firebase/firestore';
+import { db } from './firebase.config';
 
 /**
  * Adds new doc from form input to firestore
@@ -20,7 +20,7 @@ import {
 
 export async function storeDoc(data) {
   // Create keywords arr based from users selection (those which are true)
-  let keywords = [];
+  const keywords = [];
   for (const key in data.keywords) {
     if (data.keywords[key]) {
       keywords.push(key);
@@ -32,7 +32,7 @@ export async function storeDoc(data) {
     name: data.name,
     description: data.description,
     rating: data.rating / 100,
-    keywords: keywords,
+    keywords,
     dateAdded: new Date(),
     reviews: 1,
   };
@@ -56,20 +56,22 @@ export async function storeReview(review, docID) {
   // Get reference for doc
   const docRef = doc(db, 'docs', docID);
   // add new review with ref of the new doc
-  const newReview = await addDoc(collection(db, 'reviews'), {
-    review: review,
-    docRef: docRef,
+  const reviewRef = await addDoc(collection(db, 'reviews'), {
+    review,
+    docRef,
     dateAdded: new Date(),
   });
   // Add reviewRef to the relevent document
   // Get reviewRef
-  const newReviewRef = doc(db, 'reviews', newReview.id);
+  const newReviewRef = doc(db, 'reviews', reviewRef.id);
   // update doc with new reviewRef
   await updateDoc(docRef, {
     reviews: arrayUnion(newReviewRef),
   });
+  // get new review to return
+  const newReview = await getDoc(reviewRef);
 
-  return newReview;
+  return newReview.data();
 }
 /**
  * Get Document base on name
@@ -84,7 +86,10 @@ export async function getDocumentFromName(name) {
   // Get doc snapshots from query snapshot
   const docSnapshots = await getDocs(q);
 
-  const document = { ...docSnapshots.docs[0].data(), docID: docSnapshots.docs[0].id };
+  const document = {
+    ...docSnapshots.docs[0].data(),
+    docID: docSnapshots.docs[0].id,
+  };
   return document;
 }
 
@@ -118,9 +123,7 @@ export async function getAllReviewsOfDoc(reviewRefs) {
   const promises = reviewRefs.map(async (review) => getDoc(review));
   const reviewSnapshots = await Promise.all(promises);
 
-  const reviews = reviewSnapshots.map((r) => {
-    return { ...r.data(), id: r.id };
-  });
+  const reviews = reviewSnapshots.map((r) => ({ ...r.data(), id: r.id }));
   return reviews;
 }
 

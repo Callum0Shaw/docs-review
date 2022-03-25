@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-import Doc from './routes/Doc';
-import Docs from './routes/Docs';
-import Home from './routes/Home';
-import NewDoc from './routes/NewDoc'
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import App from './App';
+import DocRoute from './routes/DocRoute';
+import DocsRoute from './routes/DocsRoute';
+import Home from './routes/Home';
+import NewDoc from './routes/NewDoc';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -13,9 +13,9 @@ ReactDOM.render(
       <Routes>
         <Route path="/" element={<App />}>
           <Route index element={<Home />} />
-          <Route path="docs" element={<Docs />}>
+          <Route path="docs" element={<DocsRoute />}>
             <Route index element={<h1 className="text-black">Index</h1>} />
-            <Route path=":docName" element={<Doc />} />
+            <Route path=":docName" element={<DocRoute />} />
             <Route path="new" element={<NewDoc />} />
           </Route>
           <Route
