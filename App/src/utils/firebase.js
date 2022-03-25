@@ -13,6 +13,36 @@ import {
 } from 'firebase/firestore';
 import { db } from './firebase.config';
 
+const docsRef = collection(db, 'docs');
+const reviewsRef = collection(db, 'reviews');
+
+/**
+ * Creates new review and stores in firestore
+ * @param  {string} review - Review in string
+ * @param  {string} docID - ID of document review is for
+ */
+
+export async function storeReview(review, docID) {
+  // Get reference for doc
+  const docRef = doc(db, 'docs', docID);
+  // add new review with ref of the new doc
+  const reviewRef = await addDoc(reviewsRef, {
+    review,
+    docRef,
+    dateAdded: new Date(),
+  });
+  // Add reviewRef to the relevent document
+  // Get reviewRef
+  const newReviewRef = doc(db, 'reviews', reviewRef.id);
+  // update doc with new reviewRef
+  await updateDoc(docRef, {
+    reviews: arrayUnion(newReviewRef),
+  });
+  // get new review to return
+  const newReview = await getDoc(reviewRef);
+
+  return newReview.data();
+}
 /**
  * Adds new doc from form input to firestore
  * @param  {object} data - Unformated data from addDocForm
@@ -37,49 +67,18 @@ export async function storeDoc(data) {
     reviews: 1,
   };
   // add new doc to db
-  const newDoc = await addDoc(collection(db, 'docs'), docData);
+  const newDoc = await addDoc(docsRef, docData);
 
   // add new review with ref of the new doc
   await storeReview(data.review, newDoc.id);
 
   return newDoc;
 }
-
-/**
- * Creates new review and stores in firestore
- * @param  {string} review - Review in string
- * @param  {string} docID - ID of document review is for
- */
-
-export async function storeReview(review, docID) {
-  console.log(review, docID);
-  // Get reference for doc
-  const docRef = doc(db, 'docs', docID);
-  // add new review with ref of the new doc
-  const reviewRef = await addDoc(collection(db, 'reviews'), {
-    review,
-    docRef,
-    dateAdded: new Date(),
-  });
-  // Add reviewRef to the relevent document
-  // Get reviewRef
-  const newReviewRef = doc(db, 'reviews', reviewRef.id);
-  // update doc with new reviewRef
-  await updateDoc(docRef, {
-    reviews: arrayUnion(newReviewRef),
-  });
-  // get new review to return
-  const newReview = await getDoc(reviewRef);
-
-  return newReview.data();
-}
 /**
  * Get Document base on name
  * @param  {String} name - Name of Document to be found
  */
 export async function getDocumentFromName(name) {
-  // Get ref of docs collection
-  const docsRef = collection(db, 'docs');
   // Query, returning a queryShot
   const q = await query(docsRef, where('name', '==', name));
 
@@ -100,15 +99,11 @@ export async function getDocumentFromName(name) {
 export async function getHighestRatedDoc() {
   let bestDoc;
   try {
-    const q = await query(
-      collection(db, 'docs'),
-      orderBy('rating', 'desc'),
-      limit(1)
-    );
+    const q = await query(docsRef, orderBy('rating', 'desc'), limit(1));
     const qSnapshot = await getDocs(q);
 
     const docs = qSnapshot.docs.map((d) => d.data());
-    bestDoc = docs[0];
+    [bestDoc[0]] = docs;
   } catch (error) {
     console.error(error);
   }
@@ -138,4 +133,29 @@ export async function getLatestReview(reviewRefs) {
     a.dateAdded.seconds < b.dateAdded.seconds ? 1 : -1
   );
   return sortedReviews[0];
+}
+/**
+ * Gets list of matching or part matching docs
+ * from: https://dev.to/sameercharles/firestore-simple-string-search-2dab
+ * @param  {String} searchTerm - user inputted search
+ */
+export async function getSearchResults(searchTerm) {
+  searchTerm = searchTerm.toLowerCase();
+  const strlength = searchTerm.length;
+  const strFrontCode = searchTerm.slice(0, strlength - 1);
+  const strEndCode = searchTerm.slice(strlength - 1, searchTerm.length);
+  // This is an important bit..
+  const endCode =
+    strFrontCode + String.fromCharCode(strEndCode.charCodeAt(0) + 1);
+  //  get query
+
+  const q = await query(
+    docsRef,
+    where('name', '>=', searchTerm),
+    where('name', '<', endCode),
+    limit(10)
+  );
+  const docSnapshots = await getDocs(q);
+  const docs = docSnapshots.docs.map((d) => ({ ...d.data(), docID: d.id }));
+  return docs;
 }

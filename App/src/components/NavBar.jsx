@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import Search from './Search';
 import { FaUser } from 'react-icons/fa';
 import { MdSearch } from 'react-icons/md';
 import { Link } from 'react-router-dom';
+import Search from './Search';
 
-const NavBar = () => {
+function NavBar() {
   const [dropDown, setDropDown] = useState(false);
 
   const handleSearchClick = (e) => {
@@ -14,7 +14,7 @@ const NavBar = () => {
   return (
     <div className="bg-main py-4 px-6 w-full min-h-[56px]">
       <header
-        className={`container flex justify-between items-center px-8 py-5 bg-white ${
+        className={`container flex justify-between items-center px-8 py-5 bg-white h-[80px] ${
           dropDown ? 'rounded-t-lg' : 'rounded-lg'
         } text-black`}
       >
@@ -33,7 +33,7 @@ const NavBar = () => {
                 callum0shaw@gmail.com
               </p>
             </div>
-            <button onClick={handleSearchClick}>
+            <button type="button" onClick={handleSearchClick}>
               <MdSearch size={28} className="block md:hidden mx-4" />
             </button>
           </div>
@@ -46,6 +46,6 @@ const NavBar = () => {
       )}
     </div>
   );
-};
+}
 
 export default NavBar;

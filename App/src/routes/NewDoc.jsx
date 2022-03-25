@@ -1,12 +1,12 @@
-import React from 'react'
-import AddDocForm from '../components/AddDocForm'
+import React from 'react';
+import AddDocForm from '../components/AddDocForm';
 
-const NewDoc = () => {
+function NewDoc() {
   return (
     <div>
       <AddDocForm />
     </div>
-  )
+  );
 }
 
-export default NewDoc
+export default NewDoc;
