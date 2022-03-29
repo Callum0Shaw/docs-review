@@ -1,7 +1,6 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
-const CheckBox = ({ register, text }) => {
+function CheckBox({ register, text }) {
   const [checked, setChecked] = useState(false);
 
   return (
@@ -23,6 +22,6 @@ const CheckBox = ({ register, text }) => {
       </label>
     </div>
   );
-};
+}
 
 export default CheckBox;

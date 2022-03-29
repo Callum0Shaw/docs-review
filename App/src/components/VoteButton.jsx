@@ -1,15 +1,17 @@
 import React from 'react';
 import { MdThumbsUpDown } from 'react-icons/md';
 
-const VoteButton = ({ size, docID }) => {
-  
-
+function VoteButton({ size, docID }) {
   return (
-    <button className="bg-accent py-1 px-2 rounded hover:bg-lightaccent flex flex-row text-xs justify-center items-center gap-3 font-medium" onClick={() => setShowForm({state: true, docID: docID})}>
+    <button
+      type="button"
+      className="button"
+      onClick={() => setShowForm({ state: true, docID })}
+    >
       Leave a review
       <MdThumbsUpDown size={size} />
     </button>
   );
-};
+}
 
 export default VoteButton;

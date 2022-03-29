@@ -1,18 +1,19 @@
 import React from 'react';
 import { MdStarBorder, MdStarHalf, MdStar } from 'react-icons/md';
 
-function Stars({ rating, reviews }) {
+function Stars({ rating, reviews, size = 16, showReview = true }) {
   const convertRatingToStars = () => {
     const stars = [];
     const remainder = rating % 1;
-    for (let i = 0; i < rating - remainder; i++) {
-      stars.push(<MdStar size={16} />);
-    }
-    if (remainder < 0.75 && remainder > 0.25) {
-      stars.push(<MdStarHalf size={16} />);
-    }
-    for (let i = 0; i < 5 - stars.length; i++) {
-      stars.push(<MdStarBorder size={16} />);
+    for (let i = 0; i < 5; i++) {
+      if (i < Math.floor(rating)) stars.push(<MdStar size={size} />);
+      else if (
+        i === Math.floor(rating) &&
+        remainder < 0.75 &&
+        remainder > 0.25
+      ) {
+        stars.push(<MdStarHalf size={size} />);
+      } else stars.push(<MdStarBorder size={size} />);
     }
     return stars;
   };
@@ -24,7 +25,7 @@ function Stars({ rating, reviews }) {
           <div key={i}>{a}</div>
         ))}
       </div>
-      <p className="text-second text-[.8rem]">({reviews})</p>
+      {showReview && <p className="text-second text-[.8rem]">({reviews})</p>}
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import { storeReview } from '../utils/firebase';
 import FormTextArea from './FormTextArea';
@@ -11,7 +12,6 @@ function AddReviewForm({ docID, setToggleForm, reviews, setReviews }) {
   async function submitForm(data) {
     try {
       const submittedReview = await storeReview(data.review, docID);
-      console.log(submittedReview);
       setReviews(reviews.concat(submittedReview));
       setToggleForm(false);
     } catch (error) {
@@ -43,5 +43,12 @@ function AddReviewForm({ docID, setToggleForm, reviews, setReviews }) {
     </div>
   );
 }
+
+AddReviewForm.propTypes = {
+  docID: PropTypes.string.isRequired,
+  setToggleForm: PropTypes.func.isRequired,
+  reviews: PropTypes.array.isRequired,
+  setReviews: PropTypes.func.isRequired,
+};
 
 export default AddReviewForm;

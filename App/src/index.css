@@ -7,7 +7,6 @@
   .container {
     width: min(100% - 1rem, 78rem);
     margin-inline: auto;
-    
   }
   .con-padding {
     padding-top: 4rem;
@@ -24,16 +23,34 @@
   }
   input,
   textarea {
-    @apply w-full caret-lightaccent ease-in-out transition-colors duration-500 bg-lightgrey rounded-sm border-[1px] border-grey focus:border-lightaccent outline-none text-sm;
+    @apply w-full caret-lightaccent ease-in-out transition-colors duration-200 bg-lightgrey rounded-sm border-[1px] border-grey focus:border-lightaccent outline-none text-sm;
   }
 }
 
 @layer components {
+  .animateUnderline {
+    position: relative;
+  }
+  .animateUnderline::before {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+    @apply bg-accent
+  }
+  .animateUnderline:hover::before {
+    transform: scaleX(1);
+  }
   .checked:checked {
     @apply bg-lightaccent transition-all ease-in-out duration-300;
   }
   .button {
-    @apply flex items-center gap-4 py-3 px-8 bg-accent rounded hover:bg-lightaccent text-white text-sm font-medium transition-all ease-in-out duration-100;
+    @apply flex items-center gap-4 py-3 px-8 bg-accent rounded hover:bg-lightaccent outline-none text-white text-sm font-medium transition-all ease-in-out duration-200 focus:outline-2 focus:outline-second;
   }
   .keyword {
     @apply bg-lightgrey rounded p-1 w-fit text-black;
@@ -44,6 +61,11 @@
   .flex-center {
     @apply flex justify-center items-center justify-items-center align-middle;
   }
+
+
+
+
+  
   .background {
     background-size: cover;
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:svgjs='http://svgjs.com/svgjs' width='1600' height='800' preserveAspectRatio='none' viewBox='0 0 1600 800'%3e%3cg mask='url(%26quot%3b%23SvgjsMask1434%26quot%3b)' fill='none'%3e%3crect width='1600' height='800' x='0' y='0' fill='rgba(251%2c 232%2c 166%2c 1)'%3e%3c/rect%3e%3cpath d='M-28.15 163.46C96.4 178.65 120.32 421.07 377.17 459.46 634.02 497.85 650.12 789.41 782.49 813.06' stroke='rgba(180%2c 223%2c 229%2c 0.37)' stroke-width='2'%3e%3c/path%3e%3cpath d='M-249.92 347.82C-75.56 357.81 96.83 654.16 366.85 675.82 636.88 697.48 579.02 898.89 675.24 911.92' stroke='rgba(180%2c 223%2c 229%2c 0.37)' stroke-width='2'%3e%3c/path%3e%3cpath d='M-75.74 289.04C104.96 292.16 233.67 506.98 608.94 521.04 984.21 535.1 1097.62 893.52 1293.62 906.46' stroke='rgba(180%2c 223%2c 229%2c 0.37)' stroke-width='2'%3e%3c/path%3e%3cpath d='M-47.46 372.71C66.51 373.32 174.93 472.71 397.33 472.71 619.72 472.71 603.16 366.46 842.11 372.71 1081.07 378.96 1133 786.31 1286.9 823.24' stroke='rgba(180%2c 223%2c 229%2c 0.37)' stroke-width='2'%3e%3c/path%3e%3cpath d='M-62.87 518.87C95.1 509.14 199.74 210 492.44 214.87 785.14 219.74 840.44 820.83 1047.75 889.96' stroke='rgba(180%2c 223%2c 229%2c 0.37)' stroke-width='2'%3e%3c/path%3e%3c/g%3e%3cdefs%3e%3cmask id='SvgjsMask1434'%3e%3crect width='1600' height='800' fill='white'%3e%3c/rect%3e%3c/mask%3e%3c/defs%3e%3c/svg%3e");

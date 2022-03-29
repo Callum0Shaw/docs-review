@@ -14,17 +14,19 @@ function NavBar() {
   return (
     <div className="bg-main py-4 px-6 w-full min-h-[56px]">
       <header
-        className={`container flex justify-between items-center px-8 py-5 bg-white h-[80px] ${
+        className={`relative flex justify-center container px-8 py-5 bg-white h-[80px] ${
           dropDown ? 'rounded-t-lg' : 'rounded-lg'
         } text-black`}
       >
-        <h3 className="text-xl text-second hover:text-third font-medium font-playfair">
-          <Link to="/">Doc Review</Link>
+        <h3 className="absolute left-8 top-7 text-xl text-second hover:text-accent font-medium font-playfair animateUnderline focus:border border-accent">
+          <Link className="" to="/">
+            Doc Review
+          </Link>
         </h3>
         <div className="hidden md:block">
           <Search />
         </div>
-        <a href="#" className="text-accent hover:text-lightaccent">
+        {/* <a href="#" className="text-accent hover:text-lightaccent">
           <div className="flex gap-3 align-middle items-center">
             <FaUser className="h-8 w-8" />
             <div className="hidden md:block">
@@ -33,11 +35,15 @@ function NavBar() {
                 callum0shaw@gmail.com
               </p>
             </div>
-            <button type="button" onClick={handleSearchClick}>
-              <MdSearch size={28} className="block md:hidden mx-4" />
-            </button>
-          </div>
-        </a>
+            </div>
+          </a> */}
+        <button
+          type="button"
+          className="block md:hidden bg-accent"
+          onClick={handleSearchClick}
+        >
+          <MdSearch size={28} className="fill-white focus:fill-lightaccent" />
+        </button>
       </header>
       {dropDown && (
         <div className="container px-8 py-5 bg-white rounded-b-lg text-black md:hidden">

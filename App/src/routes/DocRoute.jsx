@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import Doc from '../components/Doc';
+import AddDocForm from '../components/AddDocForm';
 import { getDocumentFromName, getAllReviewsOfDoc } from '../utils/firebase';
 
 function DocRoute() {
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [loadingStatus, setLoadingStatus] = useState('loading');
   const [doc, setDoc] = useState(null);
   const [reviews, setReviews] = useState([]);
+  const navigate = useNavigate();
 
   const { docName } = useParams();
 
@@ -17,20 +19,25 @@ function DocRoute() {
         setDoc(docsRes);
         const reviewsRes = await getAllReviewsOfDoc(docsRes.reviews);
         setReviews(reviewsRes);
-        setIsLoaded(true);
+        setLoadingStatus('loaded');
       } catch (error) {
-        console.error(error);
-        setIsLoaded(false);
+        setLoadingStatus('failed');
       }
     }
     getDoc();
-  }, [docName]);
+  }, [docName, navigate]);
   return (
     <div>
-      {isLoaded ? (
+      {loadingStatus === 'loaded' && (
         <Doc doc={doc} reviews={reviews} setReviews={setReviews} />
-      ) : (
-        <h1>loading</h1>
+      )}
+      {loadingStatus === 'loading' && <h1 className="text-black">Loading</h1>}
+      {loadingStatus === 'failed' && (
+        <div className="text-black">
+          <h2>Not found!</h2>
+          <p>It seems your query is not yet in our system. </p>
+          <AddDocForm />
+        </div>
       )}
     </div>
   );

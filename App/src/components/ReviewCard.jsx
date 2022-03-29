@@ -28,9 +28,7 @@ function ReviewCard({ doc, logo, setShowForm }) {
           </p>
         </div>
       </div>
-      <div className="absolute right-4 bottom-4 ">
-        <VoteButton size={30} setShowForm={setShowForm} docID={doc.id} />
-      </div>
+      <VoteButton size={30} setShowForm={setShowForm} docID={doc.id} />
     </div>
   );
 }

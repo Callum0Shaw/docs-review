@@ -11,7 +11,11 @@ function AddDocForm() {
 
   async function submitForm(data) {
     // add new doc to firestore
-    await storeDoc(data);
+    try {
+      await storeDoc(data);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (

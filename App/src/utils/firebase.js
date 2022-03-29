@@ -10,11 +10,26 @@ import {
   arrayUnion,
   getDoc,
   where,
+  increment,
+  startAfter,
+  endBefore,
 } from 'firebase/firestore';
 import { db } from './firebase.config';
 
 const docsRef = collection(db, 'docs');
 const reviewsRef = collection(db, 'reviews');
+const countersRef = collection(db, 'counters');
+
+export async function incrementCounter(col) {
+  const ref = doc(db, 'counters', col);
+  try {
+    await updateDoc(ref, {
+      count: increment(1),
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 /**
  * Creates new review and stores in firestore
@@ -40,9 +55,12 @@ export async function storeReview(review, docID) {
   });
   // get new review to return
   const newReview = await getDoc(reviewRef);
+  // add review counter
+  await incrementCounter('reviews');
 
   return newReview.data();
 }
+
 /**
  * Adds new doc from form input to firestore
  * @param  {object} data - Unformated data from addDocForm
@@ -67,11 +85,19 @@ export async function storeDoc(data) {
     reviews: 1,
   };
   // add new doc to db
-  const newDoc = await addDoc(docsRef, docData);
+  let newDoc;
+  try {
+    newDoc = await addDoc(docsRef, docData);
+    console.log(newDoc);
+  } catch (error) {
+    console.log(error);
+  }
 
   // add new review with ref of the new doc
   await storeReview(data.review, newDoc.id);
 
+  // increase doc counter
+  await incrementCounter('docs');
   return newDoc;
 }
 /**
@@ -103,7 +129,7 @@ export async function getHighestRatedDoc() {
     const qSnapshot = await getDocs(q);
 
     const docs = qSnapshot.docs.map((d) => d.data());
-    [bestDoc[0]] = docs;
+    [bestDoc] = docs;
   } catch (error) {
     console.error(error);
   }
@@ -158,4 +184,56 @@ export async function getSearchResults(searchTerm) {
   const docSnapshots = await getDocs(q);
   const docs = docSnapshots.docs.map((d) => ({ ...d.data(), docID: d.id }));
   return docs;
+}
+
+export async function getFirstList(count) {
+  const q = query(docsRef, orderBy('name'), limit(count));
+  const docSnapshots = await getDocs(q);
+  const docs = docSnapshots.docs.map((d) => ({ ...d.data(), docID: d.id }));
+  return {
+    docs,
+    first: docSnapshots.docs[0],
+    last: docSnapshots.docs[count - 1],
+  };
+}
+export async function getNextList(count, lastVisible) {
+  const q = query(
+    docsRef,
+    orderBy('name'),
+    startAfter(lastVisible),
+    limit(count)
+  );
+  const docSnapshots = await getDocs(q);
+  const docs = docSnapshots.docs.map((d) => ({ ...d.data(), docID: d.id }));
+  return {
+    docs,
+    first: docSnapshots.docs[0],
+    last: docSnapshots.docs[count - 1],
+  };
+}
+
+export async function getPreviousList(count, firstVisible) {
+  const q = query(
+    docsRef,
+    orderBy('name'),
+    endBefore(firstVisible),
+    limit(count)
+  );
+  const docSnapshots = await getDocs(q);
+  const docs = docSnapshots.docs.map((d) => ({ ...d.data(), docID: d.id }));
+  return {
+    docs,
+    first: docSnapshots.docs[0],
+    last: docSnapshots.docs[count - 1],
+  };
+}
+
+export async function getCounter(col) {
+  // get ref
+  const ref = doc(db, 'counters', col);
+  // get count
+  const res = await getDoc(ref);
+
+  const data = res.data();
+  return data.count;
 }

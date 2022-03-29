@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { FaBlackberry } from 'react-icons/fa';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import App from './App';
 import DocRoute from './routes/DocRoute';
